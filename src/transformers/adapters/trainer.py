@@ -153,6 +153,10 @@ class AdapterTrainer(Trainer):
                 torch.save(state_dict, os.path.join(output_dir, WEIGHTS_NAME))
         else:
             self.model.save_all_adapters(output_dir)
+            if "embed_in" in self.model.base_model.loaded_embeddings:
+                self.model.save_embeddings(output_dir, "embed_in")
+            else:
+                self.model.save_embeddings(output_dir, "default")
             if self.train_adapter_fusion:
                 self.model.save_all_adapter_fusions(output_dir)
             if hasattr(self.model, "heads"):
@@ -188,6 +192,8 @@ class AdapterTrainer(Trainer):
                 # Save all heads for a model with heads
                 if hasattr(self.model, "heads"):
                     self._load_heads(resume_from_checkpoint)
+                self.model.load_embeddings(resume_from_checkpoint, "embed_in")
+                self.model.set_active_embeddings("embed_in")
 
             if not adapter_loaded:
                 raise Exception("Can't find a valid checkpoint at {}".format(resume_from_checkpoint))
