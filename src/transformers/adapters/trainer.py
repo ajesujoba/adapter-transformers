@@ -194,6 +194,8 @@ class AdapterTrainer(Trainer):
                     self._load_heads(resume_from_checkpoint)
                 self.model.load_embeddings(resume_from_checkpoint, "embed_in")
                 self.model.set_active_embeddings("embed_in")
+                for param in self.model.base_model.loaded_embeddings['embed_in'].parameters():
+                    param.requires_grad = True
 
             if not adapter_loaded:
                 raise Exception("Can't find a valid checkpoint at {}".format(resume_from_checkpoint))
