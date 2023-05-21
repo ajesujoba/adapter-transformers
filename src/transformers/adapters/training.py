@@ -37,7 +37,6 @@ def setup_adapter_training(
     model,
     adapter_args: AdapterArguments,
     adapter_name: str,
-    overwrite4adp: Optional[bool] = False,
     adapter_config_kwargs: Optional[dict] = None,
     adapter_load_kwargs: Optional[dict] = None,
 ):
@@ -70,7 +69,7 @@ def setup_adapter_training(
             )
         # otherwise, if adapter does not exist, add it
         elif adapter_name not in model.config.adapters:
-            model.add_adapter(adapter_name, config=adapter_config, overwrite_ok=overwrite4adp)
+            model.add_adapter(adapter_name, config=adapter_config)
         # optionally load a pre-trained language adapter
         if adapter_args.load_lang_adapter:
             # resolve the language adapter config
