@@ -58,7 +58,7 @@ def setup_adapter_training(
     # Setup adapters
     if adapter_args.train_adapter:
         # resolve the adapter config
-        adapter_config = AdapterConfigBase.load(adapter_args.adapter_config, **adapter_config_kwargs)
+        adapter_config = AdapterConfigBase.load(adapter_args.adapter_config, leave_out = adapter_args.leave_out,  **adapter_config_kwargs)
         # load a pre-trained from Hub if specified
         # note: this logic has changed in versions > 3.1.0: adapter is also loaded if it already exists
         if adapter_args.load_adapter:
